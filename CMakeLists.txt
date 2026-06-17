@@ -1,11 +1,24 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(RedisLite)
+project(RedisLite LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(server src/server.cpp)
-add_executable(client src/client.cpp)
+add_executable(redislite
+    src/main.cpp
+    src/server.cpp
+)
 
-add_compile_options(-Wall -Wextra -Wpedantic)
+target_include_directories(redislite
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+target_compile_options(redislite
+    PRIVATE
+        -Wall
+        -Wextra
+        -Wpedantic
+)

@@ -1,6 +1,6 @@
-#include <iostream>
+#include "server.h"
 
 int main() {
-    std::cout << "RedisLite starting..." << std::endl;
-    return 0;
+    Server server(6379);
+    return server.start() ? 0 : 1;
 }
