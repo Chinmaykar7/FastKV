@@ -1,6 +1,7 @@
 #include "server.h"
 #include "resp_parser.h"
 #include "command_dispatcher.h"
+#include "kv_store.h"
 
 #include <arpa/inet.h>
 #include <cerrno>
@@ -94,6 +95,8 @@ bool Server::start() {
     std::cout << "FastKV listening on 0.0.0.0:" << port_ << '\n';
     std::cout << "Waiting for client connections\n";
 
+    KVStore store;
+
     for (;;) {
         sockaddr_in client_addr{};
         socklen_t client_addr_len = sizeof(client_addr);
@@ -144,7 +147,7 @@ bool Server::start() {
                     std::cout << "[" << i << "] " << command[i] << '\n';
                 }
 
-                CommandDispatcher dispatcher;
+                CommandDispatcher dispatcher(store);
                 std::string response = dispatcher.dispatch(command);
 
                 std::cout << "Sending response: " << response;

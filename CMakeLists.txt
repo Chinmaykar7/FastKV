@@ -11,6 +11,7 @@ add_executable(fastkv
     src/server.cpp
     src/resp_parser.cpp
     src/command_dispatcher.cpp
+    src/kv_store.cpp
 )
 
 target_include_directories(fastkv
