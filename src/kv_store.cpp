@@ -20,3 +20,7 @@ std::optional<std::string> KVStore::get(const std::string& key) const {
     }
     return std::nullopt;
 }
+
+bool KVStore::exists(const std::string& key) const {
+    return pimpl_->data.find(key) != pimpl_->data.end();
+}

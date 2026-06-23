@@ -10,6 +10,7 @@ public:
     ~KVStore();
     void set(const std::string& key, const std::string& value);
     std::optional<std::string> get(const std::string& key) const;
+    bool exists(const std::string& key) const;
 
 private:
     struct Impl;
