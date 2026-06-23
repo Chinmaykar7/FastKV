@@ -24,3 +24,7 @@ std::optional<std::string> KVStore::get(const std::string& key) const {
 bool KVStore::exists(const std::string& key) const {
     return pimpl_->data.find(key) != pimpl_->data.end();
 }
+
+int KVStore::del(const std::string& key) {
+    return pimpl_->data.erase(key);
+}

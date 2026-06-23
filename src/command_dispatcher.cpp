@@ -45,5 +45,12 @@ std::string CommandDispatcher::dispatch(const std::vector<std::string>& command)
         return ":" + std::to_string(store_.exists(command[1]) ? 1 : 0) + "\r\n";
     }
 
+    if (cmd == "DEL") {
+        if (command.size() != 2) {
+            return "-ERR wrong number of arguments for 'del' command\r\n";
+        }
+        return ":" + std::to_string(store_.del(command[1])) + "\r\n";
+    }
+
     return "-ERR unknown command '" + command[0] + "'\r\n";
 }
