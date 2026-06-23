@@ -1,4 +1,5 @@
 #include "server.h"
+#include "resp_parser.h"
 
 #include <arpa/inet.h>
 #include <cerrno>
@@ -132,6 +133,18 @@ bool Server::start() {
             std::cout << "Received " << bytes_received << " bytes\n";
             std::cout.write(buffer, bytes_received);
             std::cout << '\n';
+
+            std::string input(buffer, bytes_received);
+            RespParser parser;
+            std::vector<std::string> command;
+            if (parser.parse(input, command)) {
+                std::cout << "\nParsed command:\n";
+                for (size_t i = 0; i < command.size(); ++i) {
+                    std::cout << "[" << i << "] " << command[i] << '\n';
+                }
+            } else {
+                std::cerr << "Failed to parse RESP command\n";
+            }
         } else if (bytes_received == 0) {
             std::cout << "Client disconnected before sending data\n";
         } else {

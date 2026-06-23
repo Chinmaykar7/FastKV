@@ -9,6 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(fastkv
     src/main.cpp
     src/server.cpp
+    src/resp_parser.cpp
 )
 
 target_include_directories(fastkv
