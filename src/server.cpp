@@ -1,5 +1,6 @@
 #include "server.h"
 #include "resp_parser.h"
+#include "command_dispatcher.h"
 
 #include <arpa/inet.h>
 #include <cerrno>
@@ -142,8 +143,22 @@ bool Server::start() {
                 for (size_t i = 0; i < command.size(); ++i) {
                     std::cout << "[" << i << "] " << command[i] << '\n';
                 }
+
+                CommandDispatcher dispatcher;
+                std::string response = dispatcher.dispatch(command);
+
+                std::cout << "Sending response: " << response;
+                ssize_t bytes_sent = send(client_fd, response.c_str(), response.size(), 0);
+                if (bytes_sent < 0) {
+                    std::cerr << "send() failed: " << std::strerror(errno) << '\n';
+                } else if (static_cast<size_t>(bytes_sent) != response.size()) {
+                    std::cerr << "send() incomplete: " << bytes_sent << " of " << response.size() << " bytes\n";
+                }
             } else {
                 std::cerr << "Failed to parse RESP command\n";
+
+                std::string error_response = "-ERR invalid RESP format\r\n";
+                send(client_fd, error_response.c_str(), error_response.size(), 0);
             }
         } else if (bytes_received == 0) {
             std::cout << "Client disconnected before sending data\n";
