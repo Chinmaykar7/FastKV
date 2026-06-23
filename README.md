@@ -1,6 +1,8 @@
-# RedisLite
+# FastKV
 
-RedisLite is a Redis-compatible concurrent in-memory key-value store built in C++17.
+## Redis-Inspired In-Memory Key-Value Store
+
+FastKV is a Redis-inspired in-memory key-value store built from scratch in C++17. The project explores systems programming concepts including TCP networking, protocol parsing, concurrent execution, efficient in-memory storage, expiration policies, and persistence.
 
 This project is being built from scratch as a systems programming and backend engineering learning project.
 
@@ -18,4 +20,5 @@ Planned features:
 ```bash
 cmake -B build
 cmake --build build
-./build/redislite
+./build/fastkv
+```

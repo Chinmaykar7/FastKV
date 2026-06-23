@@ -40,7 +40,7 @@ Server::~Server() {
 
 bool Server::start() {
     if (server_fd_ != kInvalidFd) {
-        std::cerr << "RedisLite server is already started\n";
+        std::cerr << "FastKV server is already started\n";
         return false;
     }
 
@@ -49,7 +49,7 @@ bool Server::start() {
         return false;
     }
 
-    std::cout << "RedisLite starting on port " << port_ << '\n';
+    std::cout << "FastKV starting on port " << port_ << '\n';
 
     server_fd_ = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd_ == kInvalidFd) {
@@ -89,7 +89,7 @@ bool Server::start() {
         return false;
     }
 
-    std::cout << "RedisLite listening on 0.0.0.0:" << port_ << '\n';
+    std::cout << "FastKV listening on 0.0.0.0:" << port_ << '\n';
     std::cout << "Waiting for client connections\n";
 
     for (;;) {
