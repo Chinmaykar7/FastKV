@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <memory>
 #include <optional>
 #include <string>
@@ -14,6 +15,11 @@ public:
     int del(const std::string& key);
 
 private:
+    struct KVEntry {
+        std::string value;
+        std::optional<std::chrono::steady_clock::time_point> expiry;
+    };
+
     struct Impl;
     std::unique_ptr<Impl> pimpl_;
 };
