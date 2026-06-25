@@ -13,6 +13,7 @@ public:
     std::optional<std::string> get(const std::string& key) const;
     bool exists(const std::string& key) const;
     int del(const std::string& key);
+    bool expire(const std::string& key, std::chrono::seconds ttl);
 
 private:
     struct KVEntry {

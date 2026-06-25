@@ -52,5 +52,22 @@ std::string CommandDispatcher::dispatch(const std::vector<std::string>& command)
         return ":" + std::to_string(store_.del(command[1])) + "\r\n";
     }
 
+    if (cmd == "EXPIRE") {
+        if (command.size() != 3) {
+            return "-ERR wrong number of arguments for 'expire' command\r\n";
+        }
+        long long seconds;
+        try {
+            seconds = std::stoll(command[2]);
+        } catch (...) {
+            return "-ERR value is not an integer or out of range\r\n";
+        }
+        if (seconds < 0) {
+            return "-ERR invalid expire time\r\n";
+        }
+        bool result = store_.expire(command[1], std::chrono::seconds(seconds));
+        return ":" + std::to_string(result ? 1 : 0) + "\r\n";
+    }
+
     return "-ERR unknown command '" + command[0] + "'\r\n";
 }

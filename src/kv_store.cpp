@@ -28,3 +28,12 @@ bool KVStore::exists(const std::string& key) const {
 int KVStore::del(const std::string& key) {
     return pimpl_->data.erase(key);
 }
+
+bool KVStore::expire(const std::string& key, std::chrono::seconds ttl) {
+    auto it = pimpl_->data.find(key);
+    if (it == pimpl_->data.end()) {
+        return false;
+    }
+    it->second.expiry = std::chrono::steady_clock::now() + ttl;
+    return true;
+}
