@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 struct KVStore::Impl {
-    mutable std::unordered_map<std::string, KVEntry> data;
+    std::unordered_map<std::string, KVEntry> data;
 };
 
 KVStore::KVStore() : pimpl_(std::make_unique<Impl>()) {}
@@ -13,7 +13,7 @@ void KVStore::set(const std::string& key, const std::string& value) {
     pimpl_->data[key] = KVEntry{value, std::nullopt};
 }
 
-bool KVStore::removeIfExpired(const std::string& key) const {
+bool KVStore::removeIfExpired(const std::string& key) {
     auto it = pimpl_->data.find(key);
     if (it == pimpl_->data.end()) {
         return false;
@@ -29,7 +29,7 @@ bool KVStore::removeIfExpired(const std::string& key) const {
 }
 
 std::optional<std::string> KVStore::get(const std::string& key) const {
-    removeIfExpired(key);
+    const_cast<KVStore*>(this)->removeIfExpired(key);
     auto it = pimpl_->data.find(key);
     if (it != pimpl_->data.end()) {
         return it->second.value;
@@ -38,7 +38,7 @@ std::optional<std::string> KVStore::get(const std::string& key) const {
 }
 
 bool KVStore::exists(const std::string& key) const {
-    removeIfExpired(key);
+    const_cast<KVStore*>(this)->removeIfExpired(key);
     return pimpl_->data.find(key) != pimpl_->data.end();
 }
 

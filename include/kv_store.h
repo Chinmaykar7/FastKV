@@ -24,5 +24,5 @@ private:
     struct Impl;
     std::unique_ptr<Impl> pimpl_;
 
-    bool removeIfExpired(const std::string& key) const;
+    bool removeIfExpired(const std::string& key);
 };
